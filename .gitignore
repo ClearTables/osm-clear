@@ -1,0 +1,4 @@
+data/
+*.xml
+node_modules/
+localconfig.json
