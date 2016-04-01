@@ -103,7 +103,6 @@ Layer:
             brunnel::text
           FROM roads
           ORDER BY layer,
-          -- CASE brunnel WHEN 'tunnel' THEN -1 WHEN 'bridge' THEN 1 ELSE 0 END,
           z_order
         ) AS transportation
     properties:
