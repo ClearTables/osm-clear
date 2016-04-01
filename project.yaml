@@ -88,6 +88,7 @@ Layer:
     properties:
       min-zoom: 6
   - id: transportation-lz
+    class: transportation
     geometry: linestring
     <<: *extents
     Datasource:
@@ -107,6 +108,7 @@ Layer:
       minzoom: 6
       maxzoom: 9
   - id: transportation-back-casing
+    class: transportation
     geometry: linestring
     <<: *extents
     Datasource:
@@ -124,6 +126,7 @@ Layer:
     properties:
       minzoom: 10
   - id: transportation
+    class: transportation
     geometry: linestring
     <<: *extents
     Datasource:
