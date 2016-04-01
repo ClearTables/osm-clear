@@ -71,18 +71,49 @@ Layer:
             way
           FROM water_areas
         ) AS water
-  - id: "transportation"
-    class: ""
+  - id: transportation-lz
     geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
       table: |-
         (SELECT
-            way
+            way,
+            class,
+            layer,
+            brunnel::text
           FROM roads
-          ORDER BY layer, z_order
+          WHERE class IN ('motorway','trunk','primary','secondary')
+          ORDER BY z_order
+        ) AS transportation_lz
+    properties:
+      group-by: brunnel
+      maxzoom: 9
+  - id: transportation-back-casing
+    geometry: linestring
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: &roads_query |-
+        (SELECT
+            way,
+            class,
+            layer,
+            brunnel::text
+          FROM roads
+          ORDER BY layer,
+          -- CASE brunnel WHEN 'tunnel' THEN -1 WHEN 'bridge' THEN 1 ELSE 0 END,
+          z_order
         ) AS transportation
+    properties:
+      minzoom: 10
+  - id: "transportation"
+    geometry: linestring
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: *roads_query
     advanced: {}
     properties:
+      group-by: layer
       minzoom: 10
