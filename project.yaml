@@ -88,6 +88,7 @@ Layer:
         ) AS transportation_lz
     properties:
       group-by: brunnel
+      minzoom: 6
       maxzoom: 9
   - id: transportation-back-casing
     geometry: linestring
