@@ -38,6 +38,7 @@ Stylesheet:
   - style.mss
   - water.mss
   - transportation.mss
+  - buildings.mss
 Layer:
   - id: ocean-lz
     class: ocean water
@@ -135,3 +136,20 @@ Layer:
     properties:
       group-by: layer
       minzoom: 10
+  - id: buildings
+    geometry: polygon
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way,
+            -- 3.66 is obtained by correlating the heights and level data in OSM
+            -- raising to a power < 1 reduces the height range displayed which looks better
+            least(greatest(3, COALESCE(height,levels*3.66,5)),400)^.7 AS render_height
+          FROM buildings
+          WHERE way_area > 0.01*!pixel_width!::real*!pixel_height!::real
+          ORDER BY render_height, ST_YMin(way) DESC
+        ) AS buildings
+    properties:
+      minzoom: 12
