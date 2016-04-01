@@ -71,6 +71,22 @@ Layer:
             way
           FROM water_areas
         ) AS water
+  - id: waterways
+    geometry: linestring
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way,
+            waterway,
+            brunnel,
+            intermittent
+          FROM waterways
+          ORDER BY layer
+        ) AS waterways
+    properties:
+      min-zoom: 6
   - id: transportation-lz
     geometry: linestring
     <<: *extents
