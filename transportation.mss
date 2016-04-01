@@ -162,27 +162,27 @@
   }
   #transportation-lz::fill,
   #transportation::fill {
-      line-color: #aaaaff;
-      line-width: 1;
-      [zoom >= 12] {
-        line-width: 2.5;
-      }
-      [zoom >= 13] {
-        line-width: 4;
-      }
-      [zoom >= 15] {
-        line-width: 5;
-      }
-      [zoom >= 17] {
-        line-width: 12;
-      }
-      [zoom >= 18] {
-        line-width: 13;
-      }
-      [zoom >= 19] {
-        line-width: 17;
-      }
-      line-join: round;
-      line-cap: round;
+    line-color: #aaaaff;
+    line-width: 1;
+    [zoom >= 12] {
+      line-width: 2.5;
+    }
+    [zoom >= 13] {
+      line-width: 4;
+    }
+    [zoom >= 15] {
+      line-width: 5;
+    }
+    [zoom >= 17] {
+      line-width: 12;
+    }
+    [zoom >= 18] {
+      line-width: 13;
+    }
+    [zoom >= 19] {
+      line-width: 17;
+    }
+    line-join: round;
+    line-cap: round;
   }
 }
