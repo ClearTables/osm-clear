@@ -1,7 +1,7 @@
 scale: 1
 metatile: 2
-name: "OSM Clear"
-description: "A faithful reimplementation of the standard OpenStreetMap style"
+name: OSM Clear
+description: A style designed for use with ClearTables
 bounds: &world
   - -180
   - -85.05112877980659
@@ -34,7 +34,6 @@ _parts:
     key_field: ""
     geometry_field: "way"
     extent: "-20037508,-20037508,20037508,20037508"
-
 Stylesheet:
   - style.mss
   - water.mss
