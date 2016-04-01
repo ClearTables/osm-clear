@@ -29,16 +29,16 @@ _parts:
     srs-name: "WGS84"
     srs: "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
   osm2pgsql: &osm2pgsql
-    type: "postgis"
+    type: postgis
     dbname: "gis"
     key_field: ""
     geometry_field: "way"
     extent: "-20037508,-20037508,20037508,20037508"
 
 Stylesheet:
-  - "style.mss"
-  - "water.mss"
-  - "transportation.mss"
+  - style.mss
+  - water.mss
+  - transportation.mss
 Layer:
   - id: ocean-lz
     class: ocean water
@@ -46,7 +46,7 @@ Layer:
     <<: *extents
     Datasource:
       file: "data/simplified-water-polygons-complete-3857/simplified_water_polygons.shp"
-      type: "shape"
+      type: shape
     advanced: {}
     properties:
       maxzoom: 9
@@ -56,7 +56,7 @@ Layer:
     <<: *extents
     Datasource:
       file: "data/water-polygons-split-3857/water_polygons.shp"
-      type: "shape"
+      type: shape
     properties:
       minzoom: 10
     advanced: {}
@@ -123,7 +123,7 @@ Layer:
         ) AS transportation
     properties:
       minzoom: 10
-  - id: "transportation"
+  - id: transportation
     geometry: linestring
     <<: *extents
     Datasource:
