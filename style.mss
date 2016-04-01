@@ -1,5 +1,6 @@
 Map {
   background-color: @land-color;
+  buffer-size: 128;
 }
 
 @book-fonts: "Open Sans Semibold","DejaVu Sans Book","unifont Medium";
