@@ -174,7 +174,8 @@ Layer:
               way_area
             FROM road_areas
             ORDER BY layer,
-              z_order, way_area DESC NULLS LAST) AS q
+              z_order,
+              way_area DESC NULLS LAST) AS q
         ) AS transportation
     properties:
       minzoom: 10
