@@ -146,19 +146,35 @@ Layer:
             way,
             class,
             layer,
-            brunnel::text,
-            z_order
-          FROM roads
-        UNION ALL
-        SELECT
-            way,
-            class,
-            layer,
-            brunnel::text, -- does this need to be text?
-            z_order
-          FROM rail
-          ORDER BY layer,
-            z_order
+            brunnel::text -- does this need to be text?
+          FROM (SELECT
+              way,
+              class,
+              layer,
+              brunnel,
+              z_order,
+              NULL::real AS way_area
+            FROM roads
+          UNION ALL
+          SELECT
+              way,
+              class,
+              layer,
+              brunnel,
+              z_order,
+              NULL::real AS way_area
+            FROM rail
+          UNION ALL
+          SELECT
+              way,
+              class,
+              layer,
+              brunnel,
+              z_order,
+              way_area
+            FROM road_areas
+            ORDER BY layer,
+              z_order, way_area DESC NULLS LAST) AS q
         ) AS transportation
     properties:
       minzoom: 10

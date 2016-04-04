@@ -68,58 +68,62 @@
     #transportation-back-casing,
     #transportation-lz::casing,
     #transportation::casing {
-      line-color: #b9aa87;
-      line-width: 3.0;
-      [zoom >= 12] {
-        line-width: 4.2;
-      }
-      [zoom >= 13] {
-        line-width: 6;
-      }
-      [zoom >= 15] {
-        line-width: 12.4;
-      }
-      [zoom >= 17] {
-        line-width: 20;
-      }
-      [zoom >= 18] {
-        line-width: 23;
-      }
-      [zoom >= 19] {
-        line-width: 29;
-      }
-      line-join: round;
-      #transportation-back-casing {
-        line-cap: round;
-      }
-      [brunnel = 'bridge'] {
-        line-color: black;
+      ['mapnik::geometry_type' = 2] {
+        line-color: #b9aa87;
+        line-width: 3.0;
+        [zoom >= 12] {
+          line-width: 4.2;
+        }
+        [zoom >= 13] {
+          line-width: 6;
+        }
+        [zoom >= 15] {
+          line-width: 12.4;
+        }
+        [zoom >= 17] {
+          line-width: 20;
+        }
+        [zoom >= 18] {
+          line-width: 23;
+        }
+        [zoom >= 19] {
+          line-width: 29;
+        }
+        line-join: round;
+        #transportation-back-casing {
+          line-cap: round;
+        }
+        [brunnel = 'bridge'] {
+          line-color: black;
+        }
       }
     }
     #transportation-lz::fill,
     #transportation::fill {
-      line-color: #f2e1bc;
-      line-width: 1.8;
-      [zoom >= 12] {
-        line-width: 3.5;
+      ['mapnik::geometry_type' = 2] {
+        line-color: #f2e1bc;
+        line-width: 1.8;
+        [zoom >= 12] {
+          line-width: 3.5;
+        }
+        [zoom >= 13] {
+          line-width: 5;
+        }
+        [zoom >= 15] {
+          line-width: 10;
+        }
+        [zoom >= 17] {
+          line-width: 18;
+        }
+        [zoom >= 18] {
+          line-width: 21;
+        }
+        [zoom >= 19] {
+          line-width: 27;
+        }
+        line-join: round;
+        line-cap: round;
       }
-      [zoom >= 13] {
-        line-width: 5;
-      }
-      [zoom >= 15] {
-        line-width: 10;
-      }
-      [zoom >= 17] {
-        line-width: 18;
-      }
-      [zoom >= 18] {
-        line-width: 21;
-      }
-      [zoom >= 19] {
-        line-width: 27;
-      }
-      line-join: round;
-      line-cap: round;
     }
   }
 
@@ -132,104 +136,112 @@
     #transportation-back-casing,
     #transportation-lz::casing,
     #transportation::casing {
-      line-color: #777777;
-      line-width: 1.6;
-      [zoom >= 12] {
-        line-width: 2.7;
-      }
-      [zoom >= 13] {
-        line-width: 4.7;
-      }
-      [zoom >= 15] {
-        line-width: 6.2;
-      }
-      [zoom >= 17] {
-        line-width: 13.6;
-      }
-      [zoom >= 18] {
-        line-width: 14.6;
-      }
-      [zoom >= 19] {
-        line-width: 18.6;
-      }
-      line-join: round;
-      #transportation-back-casing {
-        line-cap: round;
-      }
-      [brunnel = 'bridge'] {
-        line-color: black;
+      ['mapnik::geometry_type' = 2] {
+        line-color: #777777;
+        line-width: 1.6;
+        [zoom >= 12] {
+          line-width: 2.7;
+        }
+        [zoom >= 13] {
+          line-width: 4.7;
+        }
+        [zoom >= 15] {
+          line-width: 6.2;
+        }
+        [zoom >= 17] {
+          line-width: 13.6;
+        }
+        [zoom >= 18] {
+          line-width: 14.6;
+        }
+        [zoom >= 19] {
+          line-width: 18.6;
+        }
+        line-join: round;
+        #transportation-back-casing {
+          line-cap: round;
+        }
+        [brunnel = 'bridge'] {
+          line-color: black;
+        }
       }
     }
     #transportation-lz::fill,
     #transportation::fill {
-      line-color: #ffffff;
-      line-width: 1;
-      [zoom >= 12] {
-        line-width: 2.5;
+      ['mapnik::geometry_type' = 2] {
+        line-color: #ffffff;
+        line-width: 1;
+        [zoom >= 12] {
+          line-width: 2.5;
+        }
+        [zoom >= 13] {
+          line-width: 4;
+        }
+        [zoom >= 15] {
+          line-width: 5;
+        }
+        [zoom >= 17] {
+          line-width: 12;
+        }
+        [zoom >= 18] {
+          line-width: 13;
+        }
+        [zoom >= 19] {
+          line-width: 17;
+        }
+        line-join: round;
+        line-cap: round;
       }
-      [zoom >= 13] {
-        line-width: 4;
-      }
-      [zoom >= 15] {
-        line-width: 5;
-      }
-      [zoom >= 17] {
-        line-width: 12;
-      }
-      [zoom >= 18] {
-        line-width: 13;
-      }
-      [zoom >= 19] {
-        line-width: 17;
-      }
-      line-join: round;
-      line-cap: round;
     }
   }
   [class = 'service'][zoom >= 15] {
     #transportation-back-casing,
     #transportation-lz::casing,
     #transportation::casing {
-      line-color: #777777;
-      line-width: 3.7;
-      [zoom >= 16] {
-        line-width: 5.2;
-      }
-      [zoom >= 17] {
-        line-width: 7.6;
-      }
-      [zoom >= 18] {
-        line-width: 9.6;
-      }
-      [zoom >= 19] {
-        line-width: 11.6;
-      }
-      line-join: round;
-      #transportation-back-casing {
-        line-cap: round;
-      }
-      [brunnel = 'bridge'] {
-        line-color: black;
+      ['mapnik::geometry_type' = 2] {
+        line-color: #777777;
+        line-width: 3.7;
+        [zoom >= 16] {
+          line-width: 5.2;
+        }
+        [zoom >= 17] {
+          line-width: 7.6;
+        }
+        [zoom >= 18] {
+          line-width: 9.6;
+        }
+        [zoom >= 19] {
+          line-width: 11.6;
+        }
+        line-join: round;
+        #transportation-back-casing {
+          line-cap: round;
+        }
+        [brunnel = 'bridge'] {
+          line-color: black;
+        }
       }
     }
     #transportation-lz::fill,
     #transportation::fill {
-      line-color: #ffffff;
-      line-width: 2.5;
-      [zoom >= 16] {
-        line-width: 4;
+      ['mapnik::geometry_type' = 2] {
+        line-color: #ffffff;
+        line-width: 2.5;
+        [zoom >= 16] {
+          line-width: 4;
+        }
+        [zoom >= 17] {
+          line-width: 6;
+        }
+        [zoom >= 18] {
+          line-width: 8;
+        }
+        [zoom >= 19] {
+          line-width: 10;
+        }
+        line-join: round;
+        line-cap: round;
       }
-      [zoom >= 17] {
-        line-width: 6;
-      }
-      [zoom >= 18] {
-        line-width: 8;
-      }
-      [zoom >= 19] {
-        line-width: 10;
-      }
-      line-join: round;
-      line-cap: round;
     }
   }
 
@@ -237,46 +249,60 @@
     #transportation-back-casing,
     #transportation-lz::casing,
     #transportation::casing {
-      line-color: #777;
-      line-width: 3.7;
-      [zoom >= 16] {
-        line-width: 5.2;
+      ['mapnik::geometry_type' = 2] {
+        line-color: #777;
+        line-width: 3.7;
+        [zoom >= 16] {
+          line-width: 5.2;
+        }
+        [zoom >= 17] {
+          line-width: 7.6;
+        }
+        [zoom >= 18] {
+          line-width: 9.6;
+        }
+        [zoom >= 19] {
+          line-width: 11.6;
+        }
+        line-join: round;
+        #transportation-back-casing {
+          line-cap: round;
+        }
+        [brunnel = 'bridge'] {
+          line-color: black;
+        }
       }
-      [zoom >= 17] {
-        line-width: 7.6;
-      }
-      [zoom >= 18] {
-        line-width: 9.6;
-      }
-      [zoom >= 19] {
-        line-width: 11.6;
-      }
-      line-join: round;
-      #transportation-back-casing {
-        line-cap: round;
-      }
-      [brunnel = 'bridge'] {
-        line-color: black;
+      ['mapnik::geometry_type' = 3] {
+        line-color: #777;
+        line-width: 1.2;
+        [zoom >= 17] {
+          line-width: 1.6;
+        }
       }
     }
     #transportation-lz::fill,
     #transportation::fill {
-      line-color: #ddd;
-      line-width: 2.5;
-      [zoom >= 16] {
-        line-width: 4;
+      ['mapnik::geometry_type' = 2] {
+        line-color: #ddd;
+        line-width: 2.5;
+        [zoom >= 16] {
+          line-width: 4;
+        }
+        [zoom >= 17] {
+          line-width: 6;
+        }
+        [zoom >= 18] {
+          line-width: 8;
+        }
+        [zoom >= 19] {
+          line-width: 10;
+        }
+        line-join: round;
+        line-cap: round;
       }
-      [zoom >= 17] {
-        line-width: 6;
+      ['mapnik::geometry_type' = 3] {
+        polygon-fill: #ddd;
       }
-      [zoom >= 18] {
-        line-width: 8;
-      }
-      [zoom >= 19] {
-        line-width: 10;
-      }
-      line-join: round;
-      line-cap: round;
     }
   }
 
