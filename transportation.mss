@@ -4,7 +4,7 @@
     #transportation-back-casing,
     #transportation-lz::casing,
     #transportation::casing {
-      line-color: #ff0000;
+      line-color: #bd9b00;
       line-width: 3.2;
       [zoom >= 12] {
         line-width: 4.5;
@@ -34,7 +34,7 @@
     }
     #transportation-lz::fill,
     #transportation::fill {
-      line-color: #ffaaaa;
+      line-color: #fbd127;
       line-width: 2;
       [zoom >= 12] {
         line-width: 3.5;
@@ -68,7 +68,7 @@
     #transportation-back-casing,
     #transportation-lz::casing,
     #transportation::casing {
-      line-color: #00cc00;
+      line-color: #b9aa87;
       line-width: 3.0;
       [zoom >= 12] {
         line-width: 4.2;
@@ -98,7 +98,7 @@
     }
     #transportation-lz::fill,
     #transportation::fill {
-      line-color: #aaffaa;
+      line-color: #f2e1bc;
       line-width: 1.8;
       [zoom >= 12] {
         line-width: 3.5;
@@ -133,7 +133,7 @@
     #transportation-back-casing,
     #transportation-lz::casing,
     #transportation::casing {
-      line-color: #0000ff;
+      line-color: #777777;
       line-width: 1.6;
       [zoom >= 12] {
         line-width: 2.7;
@@ -163,7 +163,7 @@
     }
     #transportation-lz::fill,
     #transportation::fill {
-      line-color: #aaaaff;
+      line-color: #ffffff;
       line-width: 1;
       [zoom >= 12] {
         line-width: 2.5;
