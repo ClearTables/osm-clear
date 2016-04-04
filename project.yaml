@@ -39,6 +39,7 @@ Stylesheet:
   - water.mss
   - transportation.mss
   - buildings.mss
+  - aeroway.mss
 Layer:
   - id: ocean-lz
     class: ocean water
@@ -170,5 +171,19 @@ Layer:
           WHERE way_area > 0.01*!pixel_width!::real*!pixel_height!::real
           ORDER BY render_height, ST_YMin(way) DESC
         ) AS buildings
+    properties:
+      minzoom: 12
+  - id: aeroway
+    geometry: linestring
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way,
+            aeroway
+          FROM
+            aeroway_line
+        ) AS aeroway
     properties:
       minzoom: 12
