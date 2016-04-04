@@ -127,8 +127,7 @@
   [class = 'secondary'][zoom >= 9][zoom < 12],
   [class = 'tertiary'][zoom >= 11][zoom < 13],
   [class = 'minor'][zoom >= 12],
-  [class = 'unknown'][zoom >= 12],
-  [class = 'service'][zoom >= 15]
+  [class = 'unknown'][zoom >= 12]
   {
     #transportation-back-casing,
     #transportation-lz::casing,
@@ -182,6 +181,99 @@
       }
       [zoom >= 19] {
         line-width: 17;
+      }
+      line-join: round;
+      line-cap: round;
+    }
+  }
+  [class = 'service'][zoom >= 15] {
+    #transportation-back-casing,
+    #transportation-lz::casing,
+    #transportation::casing {
+      line-color: #777777;
+      line-width: 3.7;
+      [zoom >= 16] {
+        line-width: 5.2;
+      }
+      [zoom >= 17] {
+        line-width: 7.6;
+      }
+      [zoom >= 18] {
+        line-width: 9.6;
+      }
+      [zoom >= 19] {
+        line-width: 11.6;
+      }
+      line-join: round;
+      #transportation-back-casing {
+        line-cap: round;
+      }
+      [brunnel = 'bridge'] {
+        line-color: black;
+      }
+    }
+    #transportation-lz::fill,
+    #transportation::fill {
+      line-color: #ffffff;
+      line-width: 2.5;
+      [zoom >= 16] {
+        line-width: 4;
+      }
+      [zoom >= 17] {
+        line-width: 6;
+      }
+      [zoom >= 18] {
+        line-width: 8;
+      }
+      [zoom >= 19] {
+        line-width: 10;
+      }
+      line-join: round;
+      line-cap: round;
+    }
+  }
+
+  [class = 'path'][zoom >= 15] {
+    #transportation-back-casing,
+    #transportation-lz::casing,
+    #transportation::casing {
+      line-color: #777;
+      line-width: 3.7;
+      [zoom >= 16] {
+        line-width: 5.2;
+      }
+      [zoom >= 17] {
+        line-width: 7.6;
+      }
+      [zoom >= 18] {
+        line-width: 9.6;
+      }
+      [zoom >= 19] {
+        line-width: 11.6;
+      }
+      line-join: round;
+      #transportation-back-casing {
+        line-cap: round;
+      }
+      [brunnel = 'bridge'] {
+        line-color: black;
+      }
+    }
+    #transportation-lz::fill,
+    #transportation::fill {
+      line-color: #ddd;
+      line-width: 2.5;
+      [zoom >= 16] {
+        line-width: 4;
+      }
+      [zoom >= 17] {
+        line-width: 6;
+      }
+      [zoom >= 18] {
+        line-width: 8;
+      }
+      [zoom >= 19] {
+        line-width: 10;
       }
       line-join: round;
       line-cap: round;
