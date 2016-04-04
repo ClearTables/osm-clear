@@ -187,4 +187,22 @@
       line-cap: round;
     }
   }
+
+  [class = 'rail'][zoom >= 6],
+  [class = 'narrow_gauge'][zoom >= 6] {
+    #transportation-back-casing,
+    #transportation-lz::casing,
+    #transportation::casing {
+    }
+    #transportation-lz::fill,
+    #transportation::fill {
+      outer/line-color: #444444;
+      outer/line-width: 3;
+      outer/line-join: round;
+      inner/line-color: #fafafa;
+      inner/line-dasharray: 8,8;
+      inner/line-width: 1.5;
+      inner/line-join: round;
+    }
+  }
 }

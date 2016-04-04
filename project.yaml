@@ -86,7 +86,7 @@ Layer:
           ORDER BY layer
         ) AS waterways
     properties:
-      min-zoom: 6
+      minzoom: 6
   - id: transportation-lz
     class: transportation
     geometry: linestring
@@ -98,9 +98,19 @@ Layer:
             way,
             class,
             layer,
-            brunnel::text
+            brunnel::text,
+            z_order
           FROM roads
           WHERE class IN ('motorway','trunk','primary','secondary')
+        UNION ALL
+        SELECT
+            way,
+            class,
+            layer,
+            brunnel::text,
+            z_order
+          FROM rail
+          WHERE class IN ('rail', 'subway')
           ORDER BY z_order
         ) AS transportation_lz
     properties:
@@ -113,15 +123,24 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
-      table: &roads_query |-
+      table: &transport_query |-
         (SELECT
             way,
             class,
             layer,
-            brunnel::text
+            brunnel::text,
+            z_order
           FROM roads
+        UNION ALL
+        SELECT
+            way,
+            class,
+            layer,
+            brunnel::text, -- does this need to be text?
+            z_order
+          FROM rail
           ORDER BY layer,
-          z_order
+            z_order
         ) AS transportation
     properties:
       minzoom: 10
@@ -131,7 +150,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
-      table: *roads_query
+      table: *transport_query
     advanced: {}
     properties:
       group-by: layer
