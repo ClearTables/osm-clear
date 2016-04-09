@@ -40,6 +40,7 @@ Stylesheet:
   - transportation.mss
   - buildings.mss
   - aeroway.mss
+  - place.mss
 Layer:
   - id: ocean-lz
     class: ocean water
@@ -204,3 +205,47 @@ Layer:
         ) AS aeroway
     properties:
       minzoom: 12
+  - id: place
+    geometry: point
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way,
+            name,
+            class,
+            rank::text
+          FROM (SELECT
+              way,
+              name,
+              class,
+              rank,
+              population,
+              NULL::float AS way_area
+            FROM place_point
+          UNION ALL
+          SELECT
+              way,
+              name,
+              class,
+              rank,
+              population,
+              way_area
+            FROM place_poly) AS p
+          WHERE name IS NOT NULL
+          -- Place labels are well-known for being finicky for cut-off labels
+          -- This includes terms which aren't needed directly, but are required
+          -- to get consistent ordering across tile bounds.
+          ORDER BY
+            CASE class
+              WHEN 'settlement' THEN 10
+              WHEN 'subregion' THEN 5
+              WHEN 'locality' THEN 2 ELSE 1
+            END DESC,
+            p.rank DESC, -- order by the enum, not text
+            population DESC NULLS LAST,
+            way_area DESC NULLS LAST,
+            length(name) DESC,
+            name
+        ) AS place
