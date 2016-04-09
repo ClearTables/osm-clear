@@ -8,5 +8,5 @@ Map {
 @oblique-fonts: "Open Sans Semibold Italic","DejaVu Sans Italic","unifont Medium";
 
 
-@water-color: #b0ccf0;
+@water-color: #e0ebff;
 @land-color: #f8f7f1;

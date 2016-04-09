@@ -147,12 +147,14 @@ Layer:
             way,
             class,
             layer,
+            ramp,
             brunnel::text -- does this need to be text?
           FROM (SELECT
               way,
               class,
               layer,
               brunnel,
+              ramp,
               z_order,
               NULL::real AS way_area
             FROM roads
@@ -162,6 +164,7 @@ Layer:
               class,
               layer,
               brunnel,
+              NULL::boolean AS ramp,
               z_order,
               NULL::real AS way_area
             FROM rail
@@ -171,6 +174,7 @@ Layer:
               class,
               layer,
               brunnel,
+              NULL::boolean AS ramp,
               z_order,
               way_area
             FROM road_areas
