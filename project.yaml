@@ -249,3 +249,20 @@ Layer:
             length(name) DESC,
             name
         ) AS place
+  - id: roads-text
+    class: transportation
+    geometry: linestring
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way,
+            name,
+            class,
+            layer,
+            brunnel,
+            z_order
+          FROM roads
+          WHERE name IS NOT NULL
+          ORDER BY layer, z_order) AS road_text

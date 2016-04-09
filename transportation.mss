@@ -57,6 +57,11 @@
       line-join: round;
       line-cap: round;
     }
+    #roads-text {
+      text-name: "[name]";
+      text-face-name: @book-fonts;
+      text-placement: line;
+    }
   }
 
 
@@ -124,6 +129,13 @@
         line-join: round;
         line-cap: round;
       }
+    }
+    #roads-text {
+      text-name: "[name]";
+      text-face-name: @book-fonts;
+      text-placement: line;
+      text-repeat-distance: 64;
+      text-margin: 10;
     }
   }
 
