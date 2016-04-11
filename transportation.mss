@@ -17,6 +17,9 @@
 @minor-fill: #ffffff;
 @minor-casing: #aaaaaa;
 
+@service-fill: @minor-fill;
+@service-casing: @minor-casing;
+
 // from width=0.15*e^(0.25*zoom)
 @motorway-z4-width: 0.4;
 @motorway-z5-width: 0.5;
@@ -102,6 +105,14 @@
 @minor-z19-width: 4.5;
 @minor-z20-width: 5.5;
 @minor-casing-width: 0.8;
+
+@service-z15-width: 1.3;
+@service-z16-width: 1.6;
+@service-z17-width: 1.9;
+@service-z18-width: 2.3;
+@service-z19-width: 2.8;
+@service-z20-width: 3.3;
+@service-casing-width: 0.7;
 
 .transportation {
   /* Motorways get their own unique styling at all zooms */
@@ -379,20 +390,13 @@
     #transportation-back-casing,
     #transportation::casing {
       ['mapnik::geometry_type' = 2] {
-        line-color: #777777;
-        line-width: 3.7;
-        [zoom >= 16] {
-          line-width: 5.2;
-        }
-        [zoom >= 17] {
-          line-width: 7.6;
-        }
-        [zoom >= 18] {
-          line-width: 9.6;
-        }
-        [zoom >= 19] {
-          line-width: 11.6;
-        }
+        line-color: @service-casing;
+        line-width: @service-z15-width + 2*@service-casing-width;
+        [zoom >= 16] { line-width: @service-z16-width + 2*@service-casing-width; }
+        [zoom >= 17] { line-width: @service-z17-width + 2*@service-casing-width; }
+        [zoom >= 18] { line-width: @service-z18-width + 2*@service-casing-width; }
+        [zoom >= 19] { line-width: @service-z19-width + 2*@service-casing-width; }
+        [zoom >= 20] { line-width: @service-z20-width + 2*@service-casing-width; }
         line-join: round;
         #transportation-back-casing {
           line-cap: round;
@@ -402,32 +406,22 @@
         }
       }
     }
-    #road-lz::fill,
     #transportation::fill {
       ['mapnik::geometry_type' = 2] {
-        line-color: #ffffff;
-        line-width: 2.5;
-        [zoom >= 16] {
-          line-width: 4;
-        }
-        [zoom >= 17] {
-          line-width: 6;
-        }
-        [zoom >= 18] {
-          line-width: 8;
-        }
-        [zoom >= 19] {
-          line-width: 10;
-        }
+        line-color: @service-fill;
+        line-width: @service-z15-width;
+        [zoom >= 16] { line-width: @service-z16-width; }
+        [zoom >= 17] { line-width: @service-z17-width; }
+        [zoom >= 18] { line-width: @service-z18-width; }
+        [zoom >= 19] { line-width: @service-z19-width; }
+        [zoom >= 20] { line-width: @service-z20-width; }
+
         line-join: round;
         line-cap: round;
       }
       ['mapnik::geometry_type' = 3][zoom >= 16] {
-        line-color: #ffffff;
-        line-width: 1.2;
-        [zoom >= 17] {
-          line-width: 1.6;
-        }
+        line-color: @service-fill;
+        line-width: @service-casing-width;
       }
     }
   }
