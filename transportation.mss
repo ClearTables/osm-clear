@@ -138,7 +138,7 @@
         line-color: black;
       }
     }
-    #transportation-lz::fill,
+    #road-lz::fill,
     #transportation::fill {
       line-color: @motorway-lz;
       line-width: @motorway-z4-width;
@@ -196,7 +196,7 @@
   [class = 'secondary'][zoom >= 12]
   {
     #transportation-back-casing,
-    #transportation-lz::casing,
+    #road-lz::casing,
     #transportation::casing {
       ['mapnik::geometry_type' = 2][zoom >= 13] {
         line-color: @major-casing;
@@ -217,7 +217,7 @@
         }
       }
     }
-    #transportation-lz::fill,
+    #road-lz::fill,
     #transportation::fill {
       ['mapnik::geometry_type' = 2][zoom >= 6] {
         line-color: @major-lz;
@@ -244,7 +244,7 @@
         line-cap: round;
       }
     }
-    #roads-text {
+    #roads-text[zoom >= 11] {
       text-name: "[name]";
       text-face-name: @book-fonts;
       text-placement: line;
@@ -258,7 +258,7 @@
   [class = 'tertiary'][zoom >= 12]
   {
     #transportation-back-casing,
-    #transportation-lz::casing,
+    #road-lz::casing,
     #transportation::casing {
       ['mapnik::geometry_type' = 2][zoom >= 13] {
         line-color: @lessmajor-casing;
@@ -279,7 +279,7 @@
         }
       }
     }
-    #transportation-lz::fill,
+    #road-lz::fill,
     #transportation::fill {
       ['mapnik::geometry_type' = 2][zoom >= 8] {
         line-color: @lessmajor-lz;
@@ -304,7 +304,7 @@
         line-cap: round;
       }
     }
-    #roads-text {
+    #roads-text[zoom >= 13] {
       text-name: "[name]";
       text-face-name: @book-fonts;
       text-placement: line;
@@ -320,7 +320,7 @@
   [class = 'unknown'][zoom >= 12]
   {
     #transportation-back-casing,
-    #transportation-lz::casing,
+    #road-lz::casing,
     #transportation::casing {
       ['mapnik::geometry_type' = 2][zoom >= 13] {
         line-color: @minor-casing;
@@ -341,7 +341,7 @@
         }
       }
     }
-    #transportation-lz::fill,
+    #road-lz::fill,
     #transportation::fill {
       ['mapnik::geometry_type' = 2][zoom >= 12] {
         line-color: @minor-lz;
@@ -366,7 +366,7 @@
         line-width: @minor-casing-width;
       }
     }
-    #roads-text {
+    #roads-text[zoom >= 15] {
       text-name: "[name]";
       text-face-name: @book-fonts;
       text-placement: line;
@@ -377,7 +377,6 @@
 
   [class = 'service'][zoom >= 15] {
     #transportation-back-casing,
-    #transportation-lz::casing,
     #transportation::casing {
       ['mapnik::geometry_type' = 2] {
         line-color: #777777;
@@ -403,7 +402,7 @@
         }
       }
     }
-    #transportation-lz::fill,
+    #road-lz::fill,
     #transportation::fill {
       ['mapnik::geometry_type' = 2] {
         line-color: #ffffff;
@@ -435,7 +434,6 @@
 
   [class = 'path'][zoom >= 15] {
     #transportation-back-casing,
-    #transportation-lz::casing,
     #transportation::casing {
       ['mapnik::geometry_type' = 2] {
         line-color: #777;
@@ -468,7 +466,7 @@
         }
       }
     }
-    #transportation-lz::fill,
+    #road-lz::fill,
     #transportation::fill {
       ['mapnik::geometry_type' = 2] {
         line-color: #ddd;
@@ -494,21 +492,49 @@
     }
   }
 
-  [class = 'rail'][zoom >= 6],
+  [class = 'rail'][zoom >= 5],
   [class = 'narrow_gauge'][zoom >= 6] {
-    #transportation-back-casing,
-    #transportation-lz::casing,
-    #transportation::casing {
+    [zoom < 10] {
+      #rail-lz::fill,
+      #transportation::fill {
+        line-color: #888;
+        line-width: .4;
+        [zoom >= 6] { line-width: 0.5; }
+        [zoom >= 7] { line-width: 0.7; }
+        [zoom >= 8] { line-width: 0.9; }
+        [zoom >= 9] { line-width: 1.1; }
+        line-join: round;
+        line-cap: round;
+      }
     }
-    #transportation-lz::fill,
-    #transportation::fill {
-      outer/line-color: #444444;
-      outer/line-width: 3;
-      outer/line-join: round;
-      inner/line-color: #fafafa;
-      inner/line-dasharray: 8,8;
-      inner/line-width: 1.5;
-      inner/line-join: round;
+    [zoom >= 10] {
+      /* By using ::casing on lower zooms and ::fill on higher zooms, we can
+         reduce the impact of roads parallel to roads hiding them at low zooms,
+         while maintaining a more appropriate ordering at high zooms */
+      #rail-lz::casing[zoom < 13],
+      #transportation::casing[zoom < 13],
+      #transportation::fill[zoom >= 13], {
+        outer/line-width: 1.6;
+        outer/line-color: #888888;
+        inner/line-color: #fafafa;
+        inner/line-dasharray: 5,5;
+        inner/line-width: .8;
+        [zoom >= 11] {
+          outer/line-width: 1.8;
+          outer/line-color: #666666;
+          inner/line-color: #fafafa;
+          inner/line-dasharray: 6,6;
+          inner/line-width: .9;
+        }
+        [zoom >= 12] {
+          outer/line-width: 2;
+          outer/line-color: #555555;
+          inner/line-color: #fafafa;
+          inner/line-dasharray: 7,7;
+          inner/line-width: 1;
+        }
+        inner/line-join: round;
+      }
     }
   }
 }

@@ -106,7 +106,28 @@ Layer:
         ) AS buildings
     properties:
       minzoom: 12
-  - id: transportation-lz
+  - id: rail-lz
+    class: transportation
+    geometry: linestring
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way,
+            class,
+            layer,
+            brunnel::text,
+            z_order
+          FROM rail
+          WHERE class IN ('rail', 'narrow_gauge', 'subway')
+          ORDER BY z_order
+        ) AS rail_lz
+    properties:
+      group-by: brunnel
+      minzoom: 4
+      maxzoom: 9
+  - id: road-lz
     class: transportation
     geometry: linestring
     <<: *extents
@@ -121,20 +142,11 @@ Layer:
             z_order
           FROM roads
           WHERE class IN ('motorway','trunk','primary','secondary')
-        UNION ALL
-        SELECT
-            way,
-            class,
-            layer,
-            brunnel::text,
-            z_order
-          FROM rail
-          WHERE class IN ('rail', 'subway')
           ORDER BY z_order
-        ) AS transportation_lz
+        ) AS road_lz
     properties:
       group-by: brunnel
-      minzoom: 6
+      minzoom: 4
       maxzoom: 9
   - id: transportation-back-casing
     class: transportation
@@ -253,8 +265,29 @@ Layer:
             length(name) DESC,
             name
         ) AS place
+  - id: roads-text-lz
+    class: transportation text
+    geometry: linestring
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way,
+            name,
+            class,
+            layer,
+            brunnel,
+            z_order
+          FROM roads
+          WHERE name IS NOT NULL
+            AND class IN ('motorway','trunk','primary','secondary')
+          ORDER BY layer, z_order) AS road_text_lz
+    properties:
+      minzoom: 4
+      maxzoom: 9
   - id: roads-text
-    class: transportation
+    class: transportation text
     geometry: linestring
     <<: *extents
     Datasource:
@@ -270,3 +303,5 @@ Layer:
           FROM roads
           WHERE name IS NOT NULL
           ORDER BY layer, z_order) AS road_text
+    properties:
+      minzoom: 10
