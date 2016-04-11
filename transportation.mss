@@ -195,17 +195,21 @@
       line-join: round;
       line-cap: round;
     }
-    #roads-text {
+    #roads-text[zoom >= 6] {
       text-name: "[name]";
       text-face-name: @book-fonts;
       text-placement: line;
+      text-halo-fill: @motorway-lz;
+      [zoom >= 13] {
+        text-halo-fill: @motorway-fill;
+      }
+      text-halo-radius: 1.5;
     }
   }
 
   [class = 'trunk'][zoom >= 4],
   [class = 'primary'][zoom >= 8],
-  [class = 'secondary'][zoom >= 12]
-  {
+  [class = 'secondary'][zoom >= 12] {
     #transportation-back-casing,
     #road-lz::casing,
     #transportation::casing {
@@ -261,13 +265,17 @@
       text-placement: line;
       text-repeat-distance: 64;
       text-margin: 10;
+      text-halo-fill: @major-lz;
+      [zoom >= 13] {
+        text-halo-fill: @major-fill;
+      }
+      text-halo-radius: 1.5;
     }
   }
 
   [class = 'primary'][zoom >= 5][zoom < 8],
   [class = 'secondary'][zoom >= 8][zoom < 12],
-  [class = 'tertiary'][zoom >= 12]
-  {
+  [class = 'tertiary'][zoom >= 12] {
     #transportation-back-casing,
     #road-lz::casing,
     #transportation::casing {
@@ -321,6 +329,8 @@
       text-placement: line;
       text-repeat-distance: 64;
       text-margin: 10;
+      text-halo-fill: @lessmajor-fill;
+      text-halo-radius: 1.5;
     }
   }
 
@@ -328,8 +338,7 @@
   [class = 'secondary'][zoom >= 6][zoom < 8],
   [class = 'tertiary'][zoom >= 8][zoom < 11],
   [class = 'minor'][zoom >= 12],
-  [class = 'unknown'][zoom >= 12]
-  {
+  [class = 'unknown'][zoom >= 12] {
     #transportation-back-casing,
     #road-lz::casing,
     #transportation::casing {
@@ -383,6 +392,8 @@
       text-placement: line;
       text-repeat-distance: 64;
       text-margin: 10;
+      text-halo-fill: @minor-fill;
+      text-halo-radius: 1.5;
     }
   }
 
@@ -423,6 +434,15 @@
         line-color: @service-fill;
         line-width: @service-casing-width;
       }
+    }
+    #roads-text[zoom >= 15] {
+      text-name: "[name]";
+      text-face-name: @book-fonts;
+      text-placement: line;
+      text-repeat-distance: 64;
+      text-margin: 10;
+      text-halo-fill: @service-fill;
+      text-halo-radius: 1.5;
     }
   }
 
