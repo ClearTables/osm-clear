@@ -322,7 +322,7 @@
     #transportation-back-casing,
     #road-lz::casing,
     #transportation::casing {
-      ['mapnik::geometry_type' = 2][zoom >= 13] {
+      ['mapnik::geometry_type' = 2][zoom >= 14] {
         line-color: @minor-casing;
         line-width: @minor-z13-width + 2*@major-casing-width;
         [zoom >= 14] { line-width: @minor-z14-width + 2*@minor-casing-width; }
@@ -346,11 +346,11 @@
       ['mapnik::geometry_type' = 2][zoom >= 12] {
         line-color: @minor-lz;
         line-width: @minor-z12-width;
-        [zoom >= 13] {
+        [zoom >= 13] { line-width: @minor-z13-width; }
+        [zoom >= 14] {
           line-color: @minor-fill;
-          line-width: @minor-z13-width;
+          line-width: @minor-z14-width;
         }
-        [zoom >= 14] { line-width: @minor-z14-width; }
         [zoom >= 15] { line-width: @minor-z15-width; }
         [zoom >= 16] { line-width: @minor-z16-width; }
         [zoom >= 17] { line-width: @minor-z17-width; }
