@@ -201,6 +201,11 @@ Layer:
               way_area
             FROM place_poly) AS p
           WHERE name IS NOT NULL
+            AND rank IN ('city')
+              OR (z(!scale_denominator!) >= 6 AND rank >='town' AND class = 'settlement')
+              OR (z(!scale_denominator!) >= 8 AND rank >='village' AND class = 'settlement')
+              OR (z(!scale_denominator!) >= 10 AND rank >='hamlet' AND class = 'settlement')
+              -- todo: add subregions
           -- Place labels are well-known for being finicky for cut-off labels
           -- This includes terms which aren't needed directly, but are required
           -- to get consistent ordering across tile bounds.
@@ -216,6 +221,8 @@ Layer:
             length(name) DESC,
             name
         ) AS place
+    properties:
+      "buffer-size": 64
   - id: roads-text
     geometry: linestring
     <<: *extents
