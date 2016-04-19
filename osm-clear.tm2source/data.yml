@@ -88,46 +88,6 @@ Layer:
         ) AS buildings
     properties:
       minzoom: 12
-  - id: rail-lz
-    geometry: linestring
-    <<: *extents
-    Datasource:
-      <<: *osm2pgsql
-      table: |-
-        (SELECT
-            way,
-            class,
-            layer,
-            brunnel::text,
-            z_order
-          FROM rail
-          WHERE class IN ('rail', 'narrow_gauge', 'subway')
-          ORDER BY z_order
-        ) AS rail_lz
-    properties:
-      group-by: brunnel
-      minzoom: 4
-      maxzoom: 9
-  - id: road-lz
-    geometry: linestring
-    <<: *extents
-    Datasource:
-      <<: *osm2pgsql
-      table: |-
-        (SELECT
-            way,
-            class,
-            layer,
-            brunnel::text,
-            z_order
-          FROM roads
-          WHERE class IN ('motorway','trunk','primary','secondary')
-          ORDER BY z_order
-        ) AS road_lz
-    properties:
-      group-by: brunnel
-      minzoom: 4
-      maxzoom: 9
   - id: transportation-back-casing
     geometry: linestring
     <<: *extents
@@ -149,6 +109,10 @@ Layer:
               z_order,
               NULL::real AS way_area
             FROM roads
+            WHERE class IN ('motorway','trunk','primary','secondary')
+              OR (z(!scale_denominator!) >= 9 AND class IN ('tertiary'))
+              OR (z(!scale_denominator!) >= 10 AND class IN ('minor'))
+              OR z(!scale_denominator!) >= 12
           UNION ALL
           SELECT
               way,
@@ -169,12 +133,13 @@ Layer:
               z_order,
               way_area
             FROM road_areas
+            WHERE z(!scale_denominator!) >= 12
             ORDER BY layer,
               z_order,
               way_area DESC NULLS LAST) AS q
         ) AS transportation
     properties:
-      minzoom: 10
+      minzoom: 4
   - id: transportation
     geometry: linestring
     <<: *extents
@@ -184,7 +149,7 @@ Layer:
     advanced: {}
     properties:
       group-by: layer
-      minzoom: 10
+      minzoom: 4
   - id: aeroway
     geometry: linestring
     <<: *extents
@@ -198,7 +163,7 @@ Layer:
             aeroway_line
         ) AS aeroway
     properties:
-      minzoom: 12
+      minzoom: 4
   - id: place
     geometry: point
     <<: *extents
@@ -243,26 +208,6 @@ Layer:
             length(name) DESC,
             name
         ) AS place
-  - id: roads-text-lz
-    geometry: linestring
-    <<: *extents
-    Datasource:
-      <<: *osm2pgsql
-      table: |-
-        (SELECT
-            way,
-            name,
-            class,
-            layer,
-            brunnel,
-            z_order
-          FROM roads
-          WHERE name IS NOT NULL
-            AND class IN ('motorway','trunk','primary','secondary')
-          ORDER BY layer, z_order) AS road_text_lz
-    properties:
-      minzoom: 4
-      maxzoom: 9
   - id: roads-text
     geometry: linestring
     <<: *extents
@@ -278,6 +223,10 @@ Layer:
             z_order
           FROM roads
           WHERE name IS NOT NULL
+            AND (class IN ('motorway','trunk','primary','secondary')
+              OR (z(!scale_denominator!) >= 9 AND class IN ('tertiary'))
+              OR (z(!scale_denominator!) >= 10 AND class IN ('minor'))
+              OR z(!scale_denominator!) >= 12)
           ORDER BY layer, z_order) AS road_text
     properties:
-      minzoom: 10
+      minzoom: 4
