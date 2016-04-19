@@ -114,9 +114,9 @@ Layer:
               NULL::real AS way_area
             FROM roads
             WHERE class IN ('motorway','trunk','primary')
-              OR (z(!scale_denominator!) >= 5 AND class IN ('secondary'))
-              OR (z(!scale_denominator!) >= 7 AND class IN ('tertiary'))
-              OR (z(!scale_denominator!) >= 10 AND class IN ('minor'))
+              OR (z(!scale_denominator!) >= 6 AND class IN ('secondary'))
+              OR (z(!scale_denominator!) >= 8 AND class IN ('tertiary'))
+              OR (z(!scale_denominator!) >= 11 AND class IN ('minor'))
               OR z(!scale_denominator!) >= 12
           UNION ALL
           SELECT
@@ -238,10 +238,11 @@ Layer:
             z_order
           FROM roads
           WHERE name IS NOT NULL
-            AND (class IN ('motorway','trunk','primary','secondary')
-              OR (z(!scale_denominator!) >= 9 AND class IN ('tertiary'))
-              OR (z(!scale_denominator!) >= 10 AND class IN ('minor'))
-              OR z(!scale_denominator!) >= 12)
+            AND class IN ('motorway','trunk','primary')
+              OR (z(!scale_denominator!) >= 6 AND class IN ('secondary'))
+              OR (z(!scale_denominator!) >= 8 AND class IN ('tertiary'))
+              OR (z(!scale_denominator!) >= 11 AND class IN ('minor'))
+              OR z(!scale_denominator!) >= 12
           ORDER BY layer, z_order) AS road_text
     properties:
       minzoom: 4
