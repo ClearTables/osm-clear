@@ -120,7 +120,10 @@ Layer:
               layer,
               brunnel,
               NULL::boolean AS ramp,
-              z_order,
+              CASE
+                WHEN z(!scale_denominator!) >= 10 THEN z_order
+                ELSE 10
+              END AS z_order, -- put railways below highways at low zoom
               NULL::real AS way_area
             FROM rail
           UNION ALL
