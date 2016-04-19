@@ -109,8 +109,9 @@ Layer:
               z_order,
               NULL::real AS way_area
             FROM roads
-            WHERE class IN ('motorway','trunk','primary','secondary')
-              OR (z(!scale_denominator!) >= 9 AND class IN ('tertiary'))
+            WHERE class IN ('motorway','trunk','primary')
+              OR (z(!scale_denominator!) >= 5 AND class IN ('secondary'))
+              OR (z(!scale_denominator!) >= 7 AND class IN ('tertiary'))
               OR (z(!scale_denominator!) >= 10 AND class IN ('minor'))
               OR z(!scale_denominator!) >= 12
           UNION ALL
