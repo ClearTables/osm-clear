@@ -193,14 +193,16 @@ Layer:
             FROM place_point
           UNION ALL
           SELECT
-              way,
+              ST_PointOnSurface(way) AS way,
               name,
               class,
               rank,
               population,
               way_area
-            FROM place_poly) AS p
-          WHERE name IS NOT NULL
+            FROM place_poly
+            WHERE way && !bbox!) AS p
+          WHERE way && !bbox!
+            AND name IS NOT NULL
             AND rank IN ('city')
               OR (z(!scale_denominator!) >= 6 AND rank >='town' AND class = 'settlement')
               OR (z(!scale_denominator!) >= 8 AND rank >='village' AND class = 'settlement')
