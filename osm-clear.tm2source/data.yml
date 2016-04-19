@@ -1,59 +1,41 @@
-scale: 1
-metatile: 2
+_prefs:
+  disabled:
+  inspector: false
+  mapid: ''
+  rev: ''
+  saveCenter: false
+metatile: 1
 name: OSM Clear
 description: A style designed for use with ClearTables
-bounds: &world
-  - -180
-  - -85.05112877980659
-  - 180
-  - 85.05112877980659
 center:
   - 0
   - 0
   - 4
-format: "png"
-interactivity: false
 minzoom: 0
-maxzoom: 19
-srs: "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over"
-
+maxzoom: 16
 # Various parts to be included later on
 _parts:
   # Extents are used for tilemill, and don't actually make it to the generated XML
   extents: &extents
-    extent: *world
+    extent: -20037508,-20037508,20037508,20037508
     srs-name: "900913"
     srs: "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over"
-  extents84: &extents84
-    extent: *world
-    srs-name: "WGS84"
-    srs: "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
   osm2pgsql: &osm2pgsql
     type: postgis
     dbname: "gis"
     key_field: ""
     geometry_field: "way"
     extent: "-20037508,-20037508,20037508,20037508"
-Stylesheet:
-  - style.mss
-  - water.mss
-  - transportation.mss
-  - buildings.mss
-  - aeroway.mss
-  - place.mss
 Layer:
   - id: ocean-lz
-    class: ocean water
     geometry: polygon
     <<: *extents
     Datasource:
       file: "data/simplified-water-polygons-complete-3857/simplified_water_polygons.shp"
       type: shape
-    advanced: {}
     properties:
       maxzoom: 9
   - id: ocean
-    class: ocean water
     geometry: polygon
     <<: *extents
     Datasource:
@@ -63,7 +45,6 @@ Layer:
       minzoom: 10
     advanced: {}
   - id: water
-    class: water
     geometry: polygon
     <<: *extents
     Datasource:
@@ -107,7 +88,6 @@ Layer:
     properties:
       minzoom: 12
   - id: rail-lz
-    class: transportation
     geometry: linestring
     <<: *extents
     Datasource:
@@ -128,7 +108,6 @@ Layer:
       minzoom: 4
       maxzoom: 9
   - id: road-lz
-    class: transportation
     geometry: linestring
     <<: *extents
     Datasource:
@@ -149,7 +128,6 @@ Layer:
       minzoom: 4
       maxzoom: 9
   - id: transportation-back-casing
-    class: transportation
     geometry: linestring
     <<: *extents
     Datasource:
@@ -197,7 +175,6 @@ Layer:
     properties:
       minzoom: 10
   - id: transportation
-    class: transportation
     geometry: linestring
     <<: *extents
     Datasource:
@@ -266,7 +243,6 @@ Layer:
             name
         ) AS place
   - id: roads-text-lz
-    class: transportation text
     geometry: linestring
     <<: *extents
     Datasource:
@@ -287,7 +263,6 @@ Layer:
       minzoom: 4
       maxzoom: 9
   - id: roads-text
-    class: transportation text
     geometry: linestring
     <<: *extents
     Datasource:

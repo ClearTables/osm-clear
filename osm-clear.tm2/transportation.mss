@@ -114,7 +114,7 @@
 @service-z20-width: 3.3;
 @service-casing-width: 0.7;
 
-.transportation {
+#transportation-back-casing, #transportation, #road-lz, #rail-lz, #road-lz, #roads-text-lz, #roads-text {
   /* Motorways get their own unique styling at all zooms */
   [class = 'motorway'][zoom >= 4] {
     #transportation-back-casing[zoom >= 13],

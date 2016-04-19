@@ -13,5 +13,6 @@
 ## Install
 
 - [Import data with osm2pgsql](https://github.com/pnorman/ClearTables#usage)
-- Run [get-shapefiles.sh](get-shapefiles.sh)
+- Run [osm-clear.tm2/get-shapefiles.sh](osm-clear.tm2/get-shapefiles.sh)
+- Edit [osm-clear.tm2/project.yml](osm-clear.tm2/project.yml) to have the `source` be the location of the tm2source, e.g. ``source: "tmsource:///home/ubuntu/osm-clear/osm-clear.tm2source"``
 - Open with [Kosmtik](https://github.com/kosmtik/kosmtik)
