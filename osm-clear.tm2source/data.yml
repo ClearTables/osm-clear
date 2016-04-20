@@ -1,12 +1,12 @@
 _prefs:
-  disabled:
+  disabled: []
   inspector: false
   mapid: ''
   rev: ''
   saveCenter: false
-metatile: 1
 name: OSM Clear
 description: A style designed for use with ClearTables
+attribution: 'Data © OpenStreetMap contributors'
 center:
   - 0
   - 0
@@ -28,6 +28,7 @@ _parts:
     extent: "-20037508,-20037508,20037508,20037508"
 Layer:
   - id: ocean-lz
+    description: Ocean from low-zoom shapefiles
     geometry: polygon
     <<: *extents
     Datasource:
