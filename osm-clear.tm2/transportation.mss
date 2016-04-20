@@ -346,7 +346,7 @@
 
   [class = 'primary'][zoom >= 4][zoom < 5],
   [class = 'secondary'][zoom >= 6][zoom < 8],
-  [class = 'tertiary'][zoom >= 8][zoom < 11],
+  [class = 'tertiary'][zoom >= 8][zoom < 12],
   [class = 'minor'][zoom >= 12],
   [class = 'unknown'][zoom >= 12] {
     #transportation-back-casing,
