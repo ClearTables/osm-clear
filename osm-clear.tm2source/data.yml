@@ -224,7 +224,7 @@ Layer:
             name
         ) AS place
     properties:
-      "buffer-size": 64
+      "buffer-size": 128
   - id: roads-text
     geometry: linestring
     <<: *extents
