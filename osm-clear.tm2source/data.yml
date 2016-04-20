@@ -172,7 +172,7 @@ Layer:
             aeroway_line
         ) AS aeroway
     properties:
-      minzoom: 4
+      minzoom: 10
   - id: place
     geometry: point
     <<: *extents
