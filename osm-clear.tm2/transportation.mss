@@ -58,6 +58,8 @@
 @motorway-ramp-casing-width: 1;
 
 // from width=0.14*e^(0.23*zoom)
+@major-z4-width: 0.35;
+@major-z5-width: 0.45;
 @major-z6-width: 0.6;
 @major-z7-width: 0.7;
 @major-z8-width: 0.9;
@@ -76,6 +78,10 @@
 @major-casing-width: 1.1;
 
 // from width=0.11*e^(0.22*zoom)
+@lessmajor-z4-width: 0.25;
+@lessmajor-z5-width: 0.3;
+@lessmajor-z6-width: 0.4;
+@lessmajor-z7-width: 0.5;
 @lessmajor-z8-width: 0.6;
 @lessmajor-z9-width: 0.8;
 @lessmajor-z10-width: 1;
@@ -91,6 +97,10 @@
 @lessmajor-z20-width: 9;
 @lessmajor-casing-width: 1.0;
 
+@minor-z4-width: 0.2;
+@minor-z5-width: 0.25;
+@minor-z6-width: 0.3;
+@minor-z7-width: 0.4;
 @minor-z8-width: 0.5;
 @minor-z9-width: 0.6;
 @minor-z10-width: 0.7;
@@ -114,7 +124,7 @@
 @service-z20-width: 3.3;
 @service-casing-width: 0.7;
 
-.transportation {
+#transportation-back-casing, #transportation, #roads-text {
   /* Motorways get their own unique styling at all zooms */
   [class = 'motorway'][zoom >= 4] {
     #transportation-back-casing[zoom >= 13],
@@ -149,7 +159,6 @@
         line-color: black;
       }
     }
-    #road-lz::fill,
     #transportation::fill {
       line-color: @motorway-lz;
       line-width: @motorway-z4-width;
@@ -211,7 +220,6 @@
   [class = 'primary'][zoom >= 8],
   [class = 'secondary'][zoom >= 12] {
     #transportation-back-casing,
-    #road-lz::casing,
     #transportation::casing {
       ['mapnik::geometry_type' = 2][zoom >= 13] {
         line-color: @major-casing;
@@ -232,11 +240,12 @@
         }
       }
     }
-    #road-lz::fill,
     #transportation::fill {
-      ['mapnik::geometry_type' = 2][zoom >= 6] {
+      ['mapnik::geometry_type' = 2][zoom >= 4] {
         line-color: @major-lz;
-        line-width: @major-z6-width;
+        line-width: @major-z4-width;
+        [zoom >= 5] { line-width: @major-z7-width; }
+        [zoom >= 6] { line-width: @major-z7-width; }
         [zoom >= 7] { line-width: @major-z7-width; }
         [zoom >= 8] { line-width: @major-z8-width; }
         [zoom >= 9] { line-width: @major-z9-width; }
@@ -277,7 +286,6 @@
   [class = 'secondary'][zoom >= 8][zoom < 12],
   [class = 'tertiary'][zoom >= 12] {
     #transportation-back-casing,
-    #road-lz::casing,
     #transportation::casing {
       ['mapnik::geometry_type' = 2][zoom >= 13] {
         line-color: @lessmajor-casing;
@@ -298,11 +306,13 @@
         }
       }
     }
-    #road-lz::fill,
     #transportation::fill {
-      ['mapnik::geometry_type' = 2][zoom >= 8] {
+      ['mapnik::geometry_type' = 2][zoom >= 5] {
         line-color: @lessmajor-lz;
-        line-width: @lessmajor-z8-width;
+        line-width: @lessmajor-z5-width;
+        [zoom >= 6] { line-width: @lessmajor-z6-width; }
+        [zoom >= 7] { line-width: @lessmajor-z7-width; }
+        [zoom >= 8] { line-width: @lessmajor-z8-width; }
         [zoom >= 9] { line-width: @lessmajor-z9-width; }
         [zoom >= 10] { line-width: @lessmajor-z10-width; }
         [zoom >= 11] { line-width: @lessmajor-z11-width; }
@@ -336,11 +346,10 @@
 
   [class = 'primary'][zoom >= 4][zoom < 5],
   [class = 'secondary'][zoom >= 6][zoom < 8],
-  [class = 'tertiary'][zoom >= 8][zoom < 11],
+  [class = 'tertiary'][zoom >= 8][zoom < 12],
   [class = 'minor'][zoom >= 12],
   [class = 'unknown'][zoom >= 12] {
     #transportation-back-casing,
-    #road-lz::casing,
     #transportation::casing {
       ['mapnik::geometry_type' = 2][zoom >= 14] {
         line-color: @minor-casing;
@@ -361,11 +370,18 @@
         }
       }
     }
-    #road-lz::fill,
     #transportation::fill {
-      ['mapnik::geometry_type' = 2][zoom >= 12] {
+      ['mapnik::geometry_type' = 2][zoom >= 4] {
         line-color: @minor-lz;
-        line-width: @minor-z12-width;
+        line-width: @minor-z4-width;
+        [zoom >= 5] { line-width: @minor-z5-width; }
+        [zoom >= 6] { line-width: @minor-z6-width; }
+        [zoom >= 7] { line-width: @minor-z7-width; }
+        [zoom >= 8] { line-width: @minor-z8-width; }
+        [zoom >= 9] { line-width: @minor-z9-width; }
+        [zoom >= 10] { line-width: @minor-z10-width; }
+        [zoom >= 11] { line-width: @minor-z11-width; }
+        [zoom >= 12] { line-width: @minor-z12-width; }
         [zoom >= 13] { line-width: @minor-z13-width; }
         [zoom >= 14] {
           line-color: @minor-fill;
@@ -480,7 +496,6 @@
         }
       }
     }
-    #road-lz::fill,
     #transportation::fill {
       ['mapnik::geometry_type' = 2] {
         line-color: #ddd;
@@ -509,13 +524,12 @@
   [class = 'rail'][zoom >= 5],
   [class = 'narrow_gauge'][zoom >= 6] {
     [zoom < 10] {
-      #rail-lz::fill,
       #transportation::fill {
         line-color: #888;
-        line-width: .4;
-        [zoom >= 6] { line-width: 0.5; }
-        [zoom >= 7] { line-width: 0.7; }
-        [zoom >= 8] { line-width: 0.9; }
+        line-width: .3;
+        [zoom >= 6] { line-width: 0.4; }
+        [zoom >= 7] { line-width: 0.6; }
+        [zoom >= 8] { line-width: 0.8; }
         [zoom >= 9] { line-width: 1.1; }
         line-join: round;
         line-cap: round;
@@ -525,7 +539,6 @@
       /* By using ::casing on lower zooms and ::fill on higher zooms, we can
          reduce the impact of roads parallel to roads hiding them at low zooms,
          while maintaining a more appropriate ordering at high zooms */
-      #rail-lz::casing[zoom < 13],
       #transportation::casing[zoom < 13],
       #transportation::fill[zoom >= 13], {
         outer/line-width: 1.6;

@@ -1,4 +1,4 @@
-.water {
+#ocean, #ocean-lz, #water {
   polygon-fill: @water-color;
 }
 

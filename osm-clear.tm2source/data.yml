@@ -1,59 +1,42 @@
-scale: 1
-metatile: 2
+_prefs:
+  disabled: []
+  inspector: false
+  mapid: ''
+  rev: ''
+  saveCenter: false
 name: OSM Clear
 description: A style designed for use with ClearTables
-bounds: &world
-  - -180
-  - -85.05112877980659
-  - 180
-  - 85.05112877980659
+attribution: 'Data © OpenStreetMap contributors'
 center:
   - 0
   - 0
   - 4
-format: "png"
-interactivity: false
 minzoom: 0
-maxzoom: 19
-srs: "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over"
-
+maxzoom: 16
 # Various parts to be included later on
 _parts:
   # Extents are used for tilemill, and don't actually make it to the generated XML
   extents: &extents
-    extent: *world
+    extent: -20037508,-20037508,20037508,20037508
     srs-name: "900913"
     srs: "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over"
-  extents84: &extents84
-    extent: *world
-    srs-name: "WGS84"
-    srs: "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
   osm2pgsql: &osm2pgsql
     type: postgis
     dbname: "gis"
     key_field: ""
     geometry_field: "way"
     extent: "-20037508,-20037508,20037508,20037508"
-Stylesheet:
-  - style.mss
-  - water.mss
-  - transportation.mss
-  - buildings.mss
-  - aeroway.mss
-  - place.mss
 Layer:
   - id: ocean-lz
-    class: ocean water
+    description: Ocean from low-zoom shapefiles
     geometry: polygon
     <<: *extents
     Datasource:
       file: "data/simplified-water-polygons-complete-3857/simplified_water_polygons.shp"
       type: shape
-    advanced: {}
     properties:
       maxzoom: 9
   - id: ocean
-    class: ocean water
     geometry: polygon
     <<: *extents
     Datasource:
@@ -63,7 +46,6 @@ Layer:
       minzoom: 10
     advanced: {}
   - id: water
-    class: water
     geometry: polygon
     <<: *extents
     Datasource:
@@ -72,6 +54,7 @@ Layer:
         (SELECT
             way
           FROM water_areas
+          WHERE way_area > 0.01*!pixel_width!::real*!pixel_height!::real
         ) AS water
   - id: waterways
     geometry: linestring
@@ -85,10 +68,14 @@ Layer:
             brunnel,
             intermittent
           FROM waterways
+          WHERE waterway IN ('river')
+            OR (z(!scale_denominator!) >= 7 AND waterway IN ('canal'))
+            OR (z(!scale_denominator!) >= 11 AND waterway IN ('stream'))
+            OR (z(!scale_denominator!) >= 13 AND waterway IN ('drain', 'ditch'))
           ORDER BY layer
         ) AS waterways
     properties:
-      minzoom: 6
+      minzoom: 5
   - id: buildings
     geometry: polygon
     <<: *extents
@@ -106,50 +93,7 @@ Layer:
         ) AS buildings
     properties:
       minzoom: 12
-  - id: rail-lz
-    class: transportation
-    geometry: linestring
-    <<: *extents
-    Datasource:
-      <<: *osm2pgsql
-      table: |-
-        (SELECT
-            way,
-            class,
-            layer,
-            brunnel::text,
-            z_order
-          FROM rail
-          WHERE class IN ('rail', 'narrow_gauge', 'subway')
-          ORDER BY z_order
-        ) AS rail_lz
-    properties:
-      group-by: brunnel
-      minzoom: 4
-      maxzoom: 9
-  - id: road-lz
-    class: transportation
-    geometry: linestring
-    <<: *extents
-    Datasource:
-      <<: *osm2pgsql
-      table: |-
-        (SELECT
-            way,
-            class,
-            layer,
-            brunnel::text,
-            z_order
-          FROM roads
-          WHERE class IN ('motorway','trunk','primary','secondary')
-          ORDER BY z_order
-        ) AS road_lz
-    properties:
-      group-by: brunnel
-      minzoom: 4
-      maxzoom: 9
   - id: transportation-back-casing
-    class: transportation
     geometry: linestring
     <<: *extents
     Datasource:
@@ -170,6 +114,11 @@ Layer:
               z_order,
               NULL::real AS way_area
             FROM roads
+            WHERE class IN ('motorway','trunk','primary')
+              OR (z(!scale_denominator!) >= 6 AND class IN ('secondary'))
+              OR (z(!scale_denominator!) >= 8 AND class IN ('tertiary'))
+              OR (z(!scale_denominator!) >= 11 AND class IN ('minor'))
+              OR z(!scale_denominator!) >= 12
           UNION ALL
           SELECT
               way,
@@ -177,7 +126,10 @@ Layer:
               layer,
               brunnel,
               NULL::boolean AS ramp,
-              z_order,
+              CASE
+                WHEN z(!scale_denominator!) >= 10 THEN z_order
+                ELSE 10
+              END AS z_order, -- put railways below highways at low zoom
               NULL::real AS way_area
             FROM rail
           UNION ALL
@@ -190,14 +142,14 @@ Layer:
               z_order,
               way_area
             FROM road_areas
+            WHERE z(!scale_denominator!) >= 12
             ORDER BY layer,
               z_order,
               way_area DESC NULLS LAST) AS q
         ) AS transportation
     properties:
-      minzoom: 10
+      minzoom: 4
   - id: transportation
-    class: transportation
     geometry: linestring
     <<: *extents
     Datasource:
@@ -206,7 +158,7 @@ Layer:
     advanced: {}
     properties:
       group-by: layer
-      minzoom: 10
+      minzoom: 4
   - id: aeroway
     geometry: linestring
     <<: *extents
@@ -220,7 +172,7 @@ Layer:
             aeroway_line
         ) AS aeroway
     properties:
-      minzoom: 12
+      minzoom: 10
   - id: place
     geometry: point
     <<: *extents
@@ -242,14 +194,21 @@ Layer:
             FROM place_point
           UNION ALL
           SELECT
-              way,
+              ST_PointOnSurface(way) AS way,
               name,
               class,
               rank,
               population,
               way_area
-            FROM place_poly) AS p
-          WHERE name IS NOT NULL
+            FROM place_poly
+            WHERE way && !bbox!) AS p
+          WHERE way && !bbox!
+            AND name IS NOT NULL
+            AND rank IN ('city')
+              OR (z(!scale_denominator!) >= 6 AND rank >='town' AND class = 'settlement')
+              OR (z(!scale_denominator!) >= 8 AND rank >='village' AND class = 'settlement')
+              OR (z(!scale_denominator!) >= 10 AND rank >='hamlet' AND class = 'settlement')
+              -- todo: add subregions
           -- Place labels are well-known for being finicky for cut-off labels
           -- This includes terms which aren't needed directly, but are required
           -- to get consistent ordering across tile bounds.
@@ -265,29 +224,9 @@ Layer:
             length(name) DESC,
             name
         ) AS place
-  - id: roads-text-lz
-    class: transportation text
-    geometry: linestring
-    <<: *extents
-    Datasource:
-      <<: *osm2pgsql
-      table: |-
-        (SELECT
-            way,
-            name,
-            class,
-            layer,
-            brunnel,
-            z_order
-          FROM roads
-          WHERE name IS NOT NULL
-            AND class IN ('motorway','trunk','primary','secondary')
-          ORDER BY layer, z_order) AS road_text_lz
     properties:
-      minzoom: 4
-      maxzoom: 9
+      "buffer-size": 128
   - id: roads-text
-    class: transportation text
     geometry: linestring
     <<: *extents
     Datasource:
@@ -302,6 +241,11 @@ Layer:
             z_order
           FROM roads
           WHERE name IS NOT NULL
+            AND class IN ('motorway','trunk','primary')
+              OR (z(!scale_denominator!) >= 6 AND class IN ('secondary'))
+              OR (z(!scale_denominator!) >= 8 AND class IN ('tertiary'))
+              OR (z(!scale_denominator!) >= 11 AND class IN ('minor'))
+              OR z(!scale_denominator!) >= 12
           ORDER BY layer, z_order) AS road_text
     properties:
-      minzoom: 10
+      minzoom: 4
