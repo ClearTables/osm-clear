@@ -182,47 +182,64 @@ Layer:
         (SELECT
             way,
             name,
-            class,
+            class::text,
             rank::text
           FROM (SELECT
-              way,
-              name,
-              class,
-              rank,
-              population,
-              NULL::float AS way_area
-            FROM place_point
-          UNION ALL
-          SELECT
-              ST_PointOnSurface(way) AS way,
-              name,
-              class,
-              rank,
-              population,
-              way_area
-            FROM place_poly
-            WHERE way && !bbox!) AS p
-          WHERE way && !bbox!
-            AND name IS NOT NULL
-            AND rank IN ('city')
-              OR (z(!scale_denominator!) >= 6 AND rank >='town' AND class = 'settlement')
-              OR (z(!scale_denominator!) >= 8 AND rank >='village' AND class = 'settlement')
-              OR (z(!scale_denominator!) >= 10 AND rank >='hamlet' AND class = 'settlement')
-              -- todo: add subregions
-          -- Place labels are well-known for being finicky for cut-off labels
-          -- This includes terms which aren't needed directly, but are required
-          -- to get consistent ordering across tile bounds.
-          ORDER BY
-            CASE class
-              WHEN 'settlement' THEN 10
-              WHEN 'subregion' THEN 5
-              WHEN 'locality' THEN 2 ELSE 1
-            END DESC,
-            p.rank DESC, -- order by the enum, not text
-            population DESC NULLS LAST,
-            way_area DESC NULLS LAST,
-            length(name) DESC,
-            name
+            DISTINCT ON (ST_SnapToGrid(way, !pixel_width!::real*8, !pixel_height!::real*8))
+              *
+            FROM (SELECT
+                way,
+                name,
+                class,
+                rank,
+                population,
+                NULL::float AS way_area
+              FROM place_point
+            UNION ALL
+            SELECT
+                ST_PointOnSurface(way) AS way,
+                name,
+                class,
+                rank,
+                population,
+                way_area
+              FROM place_poly
+              WHERE way && !bbox!) AS p
+            WHERE way && !bbox!
+              AND name IS NOT NULL
+              AND rank IN ('city')
+                OR (z(!scale_denominator!) >= 6 AND rank >='town' AND class = 'settlement')
+                OR (z(!scale_denominator!) >= 8 AND rank >='village' AND class = 'settlement')
+                OR (z(!scale_denominator!) >= 10 AND rank >='hamlet' AND class = 'settlement')
+                -- todo: add subregions
+            -- Place labels are well-known for being finicky for cut-off labels
+            -- This includes terms which aren't needed directly, but are required
+            -- to get consistent ordering across tile bounds.
+            ORDER BY
+              ST_SnapToGrid(way, !pixel_width!::real*8, !pixel_height!::real*8),
+              CASE class
+                WHEN 'settlement' THEN 10
+                WHEN 'subregion' THEN 5
+                WHEN 'locality' THEN 2 ELSE 1
+              END DESC,
+              p.rank DESC, -- order by the enum, not text
+              population DESC NULLS LAST,
+              way_area DESC NULLS LAST,
+              length(name) DESC,
+              name
+            ) AS p
+            -- This is the same ordering as above, just without the grid.
+            ORDER BY
+              CASE class
+                WHEN 'settlement' THEN 10
+                WHEN 'subregion' THEN 5
+                WHEN 'locality' THEN 2 ELSE 1
+              END DESC,
+              p.rank DESC, -- order by the enum, not text
+              population DESC NULLS LAST,
+              way_area DESC NULLS LAST,
+              length(name) DESC,
+              name
         ) AS place
     properties:
       "buffer-size": 192
