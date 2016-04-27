@@ -12,7 +12,7 @@
 
 ## Install
 - [Import data with osm2pgsql](https://github.com/pnorman/ClearTables#usage) to the database `gis`
-- Run [osm-clear.tm2/get-shapefiles.sh](osm-clear.tm2/get-shapefiles.sh)
+- Run [osm-clear.tm2source/get-shapefiles.sh](osm-clear.tm2source/get-shapefiles.sh)
 - Edit [osm-clear.tm2/project.yml](osm-clear.tm2/project.yml) to have the `source` be the location of the tm2source, e.g. ``source: "tmsource:///home/ubuntu/osm-clear/osm-clear.tm2source"``
 - Install the `z()` function in the database with `psql -d gis -f z.sql`
 - Open with [Kosmtik](https://github.com/kosmtik/kosmtik)
