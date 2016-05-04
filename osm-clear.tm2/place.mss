@@ -9,8 +9,9 @@
     shield-file: url("place-1.svg");
     shield-text-dx: 2;
     shield-text-dy: 2;
-    shield-margin: 24;
-    shield-placement-type: dummy;
+    shield-margin: 20;
+    shield-placement-type: simple;
+    shield-placements: "SE,NE,SW,NW";
     [zoom >= 6] {
       shield-file: url("place-2.svg");
       shield-text-dx: 3.5;
@@ -38,7 +39,8 @@
     shield-text-dx: 4;
     shield-text-dy: 4;
     shield-margin: 24;
-    shield-placement-type: dummy;
+    shield-placement-type: simple;
+    shield-placements: "SE,NE,SW,NW";
     [zoom >= 8] {
       shield-file: url("place-2.svg");
       shield-text-dx: 3.5;
