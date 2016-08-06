@@ -111,7 +111,6 @@ Layer:
               layer,
               brunnel,
               ramp,
-              z_order,
               NULL::real AS way_area
             FROM roads
             WHERE class IN ('motorway','trunk','primary')
@@ -126,10 +125,6 @@ Layer:
               layer,
               brunnel,
               NULL::boolean AS ramp,
-              CASE
-                WHEN z(!scale_denominator!) >= 10 THEN z_order
-                ELSE 10
-              END AS z_order, -- put railways below highways at low zoom
               NULL::real AS way_area
             FROM rail
           UNION ALL
@@ -139,12 +134,11 @@ Layer:
               layer,
               brunnel,
               NULL::boolean AS ramp,
-              z_order,
               way_area
             FROM road_areas
             WHERE z(!scale_denominator!) >= 12
             ORDER BY layer,
-              z_order,
+              class,
               way_area DESC NULLS LAST) AS q
         ) AS transportation
     properties:
@@ -254,8 +248,7 @@ Layer:
             name,
             class,
             layer,
-            brunnel,
-            z_order
+            brunnel
           FROM roads
           WHERE name IS NOT NULL
             AND class IN ('motorway','trunk','primary')
@@ -263,6 +256,6 @@ Layer:
               OR (z(!scale_denominator!) >= 8 AND class IN ('tertiary'))
               OR (z(!scale_denominator!) >= 11 AND class IN ('minor'))
               OR z(!scale_denominator!) >= 12
-          ORDER BY layer, z_order) AS road_text
+          ORDER BY layer, class) AS road_text
     properties:
       minzoom: 4
