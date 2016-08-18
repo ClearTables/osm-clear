@@ -1,5 +1,5 @@
 # OSM Clear
-* A style designed for use with [ClearTables](https://github.com/pnorman/ClearTables)
+*A style designed for use with [ClearTables](https://github.com/pnorman/ClearTables)*
 
 ![screenshot](https://raw.github.com/ClearTables/osm-clear/master/preview.png)
 
