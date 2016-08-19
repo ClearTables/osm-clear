@@ -27,24 +27,6 @@ _parts:
     geometry_field: "way"
     extent: "-20037508,-20037508,20037508,20037508"
 Layer:
-  - id: ocean-lz
-    description: Ocean from low-zoom shapefiles
-    geometry: polygon
-    <<: *extents
-    Datasource:
-      file: "data/simplified-water-polygons-complete-3857/simplified_water_polygons.shp"
-      type: shape
-    properties:
-      maxzoom: 9
-  - id: ocean
-    geometry: polygon
-    <<: *extents
-    Datasource:
-      file: "data/water-polygons-split-3857/water_polygons.shp"
-      type: shape
-    properties:
-      minzoom: 10
-    advanced: {}
   - id: water
     geometry: polygon
     <<: *extents
@@ -55,6 +37,17 @@ Layer:
             way
           FROM water_areas
           WHERE way_area > 0.01*!pixel_width!::real*!pixel_height!::real
+            AND z(!scale_denominator!) >= 6
+        UNION ALL
+        SELECT
+            way
+          FROM ocean
+          WHERE z(!scale_denominator!) >= 10
+        UNION ALL
+        SELECT
+            way
+          FROM simplified_ocean
+          WHERE z(!scale_denominator!) < 10
         ) AS water
   - id: waterways
     geometry: linestring
