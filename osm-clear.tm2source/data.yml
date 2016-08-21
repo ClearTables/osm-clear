@@ -94,7 +94,7 @@ Layer:
       table: &transport_query |-
         (SELECT
             way,
-            class,
+            class::text,
             layer,
             ramp,
             brunnel::text -- does this need to be text?
@@ -243,9 +243,9 @@ Layer:
         (SELECT
             way,
             name,
-            class,
+            class::text,
             layer,
-            brunnel
+            brunnel::text
           FROM roads
           WHERE name IS NOT NULL
             AND class IN ('motorway','trunk','primary')
