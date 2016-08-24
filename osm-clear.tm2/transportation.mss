@@ -97,6 +97,7 @@
 @lessmajor-z20-width: 9;
 @lessmajor-casing-width: 1.0;
 
+// from width=0.10*e^(0.20*zoom)
 @minor-z4-width: 0.2;
 @minor-z5-width: 0.25;
 @minor-z6-width: 0.3;
